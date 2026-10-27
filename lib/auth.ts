@@ -96,18 +96,46 @@ export interface SessionUser {
   created_at: number;
 }
 
+// Sessions are stateless: the cookie itself carries `userId.expiresAt` plus an
+// HMAC signature, so any serverless instance can verify it without shared
+// memory (the in-memory demo database is per-instance and not shared on Vercel).
+// Set SESSION_SECRET to invalidate all outstanding sessions.
+const SESSION_SECRET = process.env.SESSION_SECRET ?? "dime-demo-session-secret-v1";
+
+async function signSessionPayload(payload: string): Promise<string> {
+  const key = await crypto.subtle.importKey(
+    "raw",
+    enc.encode(SESSION_SECRET),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+  const sig = await crypto.subtle.sign("HMAC", key, enc.encode(payload));
+  return b64url(new Uint8Array(sig));
+}
+
+/** Verifies the signed cookie; returns the user id, or null if invalid/expired. */
+async function verifySessionCookie(raw: string): Promise<string | null> {
+  try {
+    const i = raw.lastIndexOf("."); // boundary: payload | signature
+    const j = raw.lastIndexOf(".", i - 1); // boundary: userId | expiresAt
+    if (i <= 0 || j <= 0) return null;
+    const expected = await signSessionPayload(raw.slice(0, i));
+    if (!timingSafeEqual(enc.encode(raw.slice(i + 1)), enc.encode(expected))) return null;
+    const expiresAt = Number(raw.slice(j + 1, i));
+    if (!Number.isFinite(expiresAt) || expiresAt <= Date.now()) return null;
+    return raw.slice(0, j);
+  } catch {
+    return null;
+  }
+}
+
 export async function createSession(userId: string): Promise<void> {
-  await ensureSchema();
-  const token = randomToken();
-  const tokenHash = await sha256hex(token);
-  const createdAt = Date.now();
-  const expiresAt = createdAt + SESSION_DAYS * 24 * 60 * 60 * 1000;
-  await db()
-    .prepare("INSERT INTO sessions (id, user_id, token_hash, created_at, expires_at) VALUES (?, ?, ?, ?, ?)")
-    .bind(crypto.randomUUID(), userId, tokenHash, createdAt, expiresAt)
-    .run();
+  const expiresAt = Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000;
+  const payload = `${userId}.${expiresAt}`;
+  const value = `${payload}.${await signSessionPayload(payload)}`;
   const jar = await cookies();
-  jar.set(SESSION_COOKIE, token, {
+  jar.set(SESSION_COOKIE, value, {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
@@ -118,37 +146,20 @@ export async function createSession(userId: string): Promise<void> {
 
 export async function destroySession(): Promise<void> {
   const jar = await cookies();
-  const token = jar.get(SESSION_COOKIE)?.value;
-  if (token) {
-    const tokenHash = await sha256hex(token);
-    await ensureSchema();
-    await db().prepare("DELETE FROM sessions WHERE token_hash = ?").bind(tokenHash).run();
-  }
   jar.delete(SESSION_COOKIE);
 }
 
-/** Current signed-in user, or null. Cleans up stale sessions opportunistically. */
+/** Current signed-in user, or null. */
 export async function currentUser(): Promise<SessionUser | null> {
   const jar = await cookies();
-  const token = jar.get(SESSION_COOKIE)?.value;
-  if (!token) return null;
+  const raw = jar.get(SESSION_COOKIE)?.value;
+  if (!raw) return null;
 
   // Only touch the database once a session cookie is actually present, so pages
   // that merely check auth stay statically prerenderable at build time.
-  await ensureSchema();
-  const tokenHash = await sha256hex(token);
-  const row = await db()
-    .prepare(
-      `SELECT u.id, u.email, u.name, u.password_hash, u.headline, u.about, u.location,
-              u.avatar_key, u.verified, u.created_at
-         FROM sessions s
-         JOIN users u ON u.id = s.user_id
-        WHERE s.token_hash = ? AND s.expires_at > ?`,
-    )
-    .bind(tokenHash, Date.now())
-    .first<SessionUser>();
-  if (!row) {
-    // Stale or unknown token: try to clear the cookie so the browser stops
+  const userId = await verifySessionCookie(raw);
+  if (!userId) {
+    // Stale or forged token: try to clear the cookie so the browser stops
     // sending it. Cookie mutation is only legal in Server Actions / Route
     // Handlers, so ignore failures during page renders — the stale token
     // simply keeps failing validation and is overwritten on the next sign-in.
@@ -157,6 +168,28 @@ export async function currentUser(): Promise<SessionUser | null> {
       jar2.delete(SESSION_COOKIE);
     } catch {
       // Not allowed to mutate cookies in this render context; safe to ignore.
+    }
+    return null;
+  }
+
+  // Demo users are seeded identically into every instance's memory, so any
+  // instance can resolve the signed session to a user row.
+  await ensureSchema();
+  const row = await db()
+    .prepare(
+      `SELECT id, email, name, password_hash, headline, about, location,
+              avatar_key, verified, created_at
+         FROM users
+        WHERE id = ?`,
+    )
+    .bind(userId)
+    .first<SessionUser>();
+  if (!row) {
+    try {
+      const jar2 = await cookies();
+      jar2.delete(SESSION_COOKIE);
+    } catch {
+      // See above: ignore in render contexts.
     }
     return null;
   }
