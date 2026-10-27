@@ -148,9 +148,16 @@ export async function currentUser(): Promise<SessionUser | null> {
     .bind(tokenHash, Date.now())
     .first<SessionUser>();
   if (!row) {
-    // Stale or unknown token: clear the cookie so the browser stops sending it.
-    const jar2 = await cookies();
-    jar2.delete(SESSION_COOKIE);
+    // Stale or unknown token: try to clear the cookie so the browser stops
+    // sending it. Cookie mutation is only legal in Server Actions / Route
+    // Handlers, so ignore failures during page renders — the stale token
+    // simply keeps failing validation and is overwritten on the next sign-in.
+    try {
+      const jar2 = await cookies();
+      jar2.delete(SESSION_COOKIE);
+    } catch {
+      // Not allowed to mutate cookies in this render context; safe to ignore.
+    }
     return null;
   }
   return row;
