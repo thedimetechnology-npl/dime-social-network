@@ -1,4 +1,5 @@
 import { db } from "./cloudflare";
+import { seedDemoData } from "./seed";
 
 // Re-export so app code can import { db } from "@/lib/db" alongside schema helpers.
 export { db } from "./cloudflare";
@@ -111,11 +112,12 @@ const DDL = [
 
 let ready: Promise<void> | null = null;
 
-/** Ensure the schema exists in the bound D1 database (idempotent, cached per isolate). */
+/** Ensure the schema exists and demo data is seeded (idempotent, cached per isolate). */
 export function ensureSchema(): Promise<void> {
   if (!ready) {
     ready = db()
       .batch(DDL.map((sql) => db().prepare(sql)))
+      .then(() => seedDemoData(db()))
       .then(() => undefined)
       .catch((err) => {
         ready = null;

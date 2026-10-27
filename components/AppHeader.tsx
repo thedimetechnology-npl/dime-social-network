@@ -51,7 +51,7 @@ export function AppHeader({
         onClick={() => setOpen(false)}
         data-testid={`nav-${l.label.toLowerCase().replace(/\s+/g, "-")}`}
       >
-        <span className="socimo-nav-icon">{NavItemIcon[l.icon]}</span>
+        <span className="socimo-nav-icon" dangerouslySetInnerHTML={{ __html: NavItemIcon[l.icon] }} />
         {l.label}
         {!!l.badge && <span className="socimo-nav-badge">{l.badge > 99 ? "99+" : l.badge}</span>}
       </Link>
