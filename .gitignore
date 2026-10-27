@@ -1,3 +1,10 @@
 /freebuff-sites-build/
 /.open-next/
 /.wrangler/
+/.freebuff/
+/.next/
+/node_modules/
+/package-lock.json
+*.log
+tsconfig.tsbuildinfo
+next-env.d.ts

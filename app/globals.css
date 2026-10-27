@@ -1,0 +1,1256 @@
+/*
+ * Dime Social Network — design system
+ * Visual language matched to the Socimo template (wpkixx.com/html/socimo):
+ *   brand #088dcd · accent #26ace2 · ink #13153e · muted #7d7e9e
+ *   Roboto type, 5-8px card radius, soft shadows, pill buttons, 3-column feed.
+ */
+
+@import "tailwindcss";
+
+@layer base {
+  :root {
+  --brand: #088dcd;
+  --brand-2: #26ace2;
+  --brand-dark: #0677ae;
+  --brand-tint: #e6f6fd;
+  --ink: #13153e;
+  --muted: #7d7e9e;
+  --line: #eaeaea;
+  --bg: #f1f5fa;
+  --surface: #ffffff;
+  --surface-alt: #f7f9fc;
+  --shadow: 0 1px 2px rgba(19, 21, 62, 0.05), 0 6px 18px -12px rgba(19, 21, 62, 0.18);
+  --radius: 8px;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Roboto, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  letter-spacing: 0.1px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+}
+
+@media (min-width: 1024px) {
+.sc-auth-brand h2 {
+  color: #fff;
+}
+}
+
+/* --------------------------------------------------------------- surfaces */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.card-pad {
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .card-pad {
+    padding: 1.15rem;
+  }
+}
+
+.card-flush {
+  padding: 0;
+  overflow: hidden;
+}
+
+.section-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 0.78rem;
+}
+
+.link {
+  color: var(--brand);
+  font-weight: 600;
+}
+.link:hover {
+  text-decoration: underline;
+}
+
+hr.soft {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 0.85rem 0;
+}
+
+/* --------------------------------------------------------------- controls */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.5rem 1.15rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--brand);
+  color: #fff;
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--brand-dark);
+}
+
+.btn-outline {
+  background: #fff;
+  border-color: var(--brand);
+  color: var(--brand);
+}
+.btn-outline:hover:not(:disabled) {
+  background: var(--brand-tint);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--muted);
+}
+.btn-ghost:hover:not(:disabled) {
+  background: rgba(19, 21, 62, 0.06);
+  color: var(--ink);
+}
+
+.btn-danger {
+  background: #fff;
+  border-color: #e5533d;
+  color: #d0391f;
+}
+.btn-danger:hover:not(:disabled) {
+  background: #fdefec;
+}
+
+.btn-sm {
+  font-size: 0.8rem;
+  padding: 0.32rem 0.85rem;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  background: var(--surface-alt);
+  color: var(--ink);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 5rem;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-tint);
+}
+
+.label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 0.3rem;
+}
+
+/* ----------------------------------------------------------------- alerts */
+
+.alert {
+  border-radius: 6px;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.alert-error {
+  background: #fdecea;
+  border: 1px solid #f3c4bc;
+  color: #8a1f11;
+}
+
+.alert-ok {
+  background: #e8f8ef;
+  border: 1px solid #bfe6cf;
+  color: #14663a;
+}
+
+.alert-info {
+  background: var(--brand-tint);
+  border: 1px solid #bfe7f8;
+  color: var(--brand-dark);
+}
+
+/* ------------------------------------------------------------- nav helpers */
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.nav-link:hover {
+  background: rgba(19, 21, 62, 0.05);
+  color: var(--ink);
+}
+.nav-link-active {
+  color: var(--brand);
+}
+
+.badge-dot {
+  background: #f2543d;
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  padding: 0 0.3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =================================================================
+   App shell
+   ================================================================= */
+
+.sc-shell {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .sc-shell {
+    grid-template-columns: 244px minmax(0, 1fr) 288px;
+  }
+}
+
+.sc-rail {
+  display: none;
+  flex-direction: column;
+  gap: 1rem;
+  position: sticky;
+  top: 4.75rem;
+}
+
+@media (min-width: 1024px) {
+  .sc-rail {
+    display: flex;
+  }
+}
+
+/* =================================================================
+   Header (Socimo top bar)
+   ================================================================= */
+
+.socimo-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgba(19, 21, 62, 0.04);
+}
+
+.sc-header-inner {
+  height: 3.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.socimo-brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-shrink: 0;
+}
+
+.socimo-brand-avatar {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 7px;
+  background: linear-gradient(135deg, var(--brand-2), var(--brand));
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1rem;
+  box-shadow: 0 4px 10px -4px rgba(8, 141, 205, 0.7);
+}
+
+.socimo-brand-text {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.socimo-search-wrapper {
+  flex: 1;
+  max-width: 26rem;
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .socimo-search-wrapper {
+    display: block;
+  }
+}
+
+.socimo-search-form {
+  position: relative;
+  width: 100%;
+}
+
+.socimo-search-input {
+  width: 100%;
+  padding: 0.52rem 0.9rem 0.52rem 2.35rem;
+  font-size: 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-alt);
+  color: var(--ink);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.socimo-search-input:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-tint);
+}
+
+.socimo-search-input::placeholder {
+  color: var(--muted);
+}
+
+.socimo-search-submit {
+  position: absolute;
+  left: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.socimo-search-submit:hover {
+  color: var(--brand);
+}
+
+.socimo-nav {
+  display: none;
+  align-items: center;
+  gap: 0.15rem;
+  margin-left: auto;
+}
+
+@media (min-width: 768px) {
+  .socimo-nav {
+    display: flex;
+  }
+}
+
+.socimo-nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--muted);
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.socimo-nav-link:hover {
+  background: var(--brand-tint);
+  color: var(--brand-dark);
+}
+
+.socimo-nav-link--active {
+  color: var(--brand);
+}
+
+.socimo-nav-link--active::after {
+  content: "";
+  position: absolute;
+  left: 0.7rem;
+  right: 0.7rem;
+  bottom: -0.62rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--brand);
+}
+
+
+.socimo-nav-badge {
+  position: absolute;
+  top: 0.15rem;
+  right: 0.1rem;
+  background: #f2543d;
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  border-radius: 999px;
+  min-width: 1rem;
+  height: 1rem;
+  padding: 0 0.22rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.socimo-user-menu {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0.35rem;
+}
+
+@media (min-width: 768px) {
+  .socimo-user-menu {
+    display: flex;
+  }
+}
+
+.socimo-user-profile {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.2rem;
+  border-radius: 999px;
+}
+
+.socimo-user-profile:hover {
+  background: var(--surface-alt);
+}
+
+.socimo-signout-btn {
+  font-size: 0.78rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.socimo-signout-btn:hover {
+  background: var(--surface-alt);
+  color: var(--ink);
+}
+
+.socimo-menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: auto;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 999px;
+  background: var(--surface-alt);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .socimo-menu-toggle {
+    display: none;
+  }
+}
+
+.socimo-mobile-menu {
+  padding: 0.75rem 0 1rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.socimo-mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.socimo-mobile-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--line);
+  padding-top: 0.75rem;
+}
+
+.socimo-mobile-profile {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.socimo-mobile-signout {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+/* =================================================================
+   Left rail — profile card + menu
+   ================================================================= */
+
+.sc-profile-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.sc-profile-cover {
+  height: 4.5rem;
+  background:
+    radial-gradient(120px 60px at 85% 20%, rgba(255, 255, 255, 0.28), transparent 70%),
+    linear-gradient(135deg, var(--brand-2) 0%, var(--brand) 60%, #046a99 100%);
+}
+
+.sc-profile-body {
+  padding: 0 1rem 1rem;
+  margin-top: -1.6rem;
+}
+
+.sc-profile-avatar {
+  display: inline-block;
+  border-radius: 999px;
+  border: 3px solid #fff;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(19, 21, 62, 0.12);
+}
+
+.sc-profile-name {
+  display: block;
+  margin-top: 0.55rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.sc-profile-headline {
+  display: block;
+  font-size: 0.76rem;
+  color: var(--muted);
+  margin-top: 0.15rem;
+}
+
+.sc-profile-stats {
+  display: flex;
+  margin-top: 0.85rem;
+  border-top: 1px solid var(--line);
+  padding-top: 0.7rem;
+}
+
+.sc-stat {
+  flex: 1;
+  text-align: center;
+  border-right: 1px solid var(--line);
+}
+.sc-stat:last-child {
+  border-right: 0;
+}
+
+.sc-stat-value {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.sc-stat-label {
+  display: block;
+  font-size: 0.66rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sc-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.sc-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #3f4368;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.sc-menu-item:hover {
+  background: var(--brand-tint);
+  color: var(--brand-dark);
+}
+
+.sc-menu-item--active {
+  background: var(--brand-tint);
+  color: var(--brand-dark);
+}
+
+.sc-menu-dot {
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 999px;
+  background: var(--brand-2);
+  flex-shrink: 0;
+}
+
+.sc-progress {
+  height: 0.35rem;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.sc-progress-bar {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--brand-2), var(--brand));
+}
+
+/* =================================================================
+   Right rail cards
+   ================================================================= */
+
+.sc-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.sc-card-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #4b4f74;
+}
+
+.sc-see-all {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--brand);
+}
+
+.sc-person {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0;
+}
+
+.sc-person + .sc-person {
+  border-top: 1px solid var(--line);
+}
+
+.sc-person-name {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.sc-person-meta {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--muted);
+  line-height: 1.25;
+}
+
+.sc-mini-btn {
+  margin-left: auto;
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--brand);
+  background: #fff;
+  color: var(--brand);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sc-mini-btn:hover {
+  background: var(--brand);
+  color: #fff;
+}
+
+.sc-job {
+  display: block;
+  padding: 0.5rem 0;
+}
+
+.sc-job + .sc-job {
+  border-top: 1px solid var(--line);
+}
+
+.sc-job-title {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.sc-job-meta {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.sc-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.85rem;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.sc-footer-links a:hover {
+  color: var(--brand);
+}
+
+.sc-copyright {
+  margin-top: 0.6rem;
+  font-size: 0.7rem;
+  color: #a2a5bd;
+}
+
+/* =================================================================
+   Stories strip
+   ================================================================= */
+
+.sc-stories {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding: 0.9rem 1rem;
+  scrollbar-width: thin;
+}
+
+.sc-story {
+  flex-shrink: 0;
+  width: 4.6rem;
+  text-align: center;
+}
+
+.sc-story-circle {
+  width: 3.4rem;
+  height: 3.4rem;
+  margin: 0 auto 0.4rem;
+  border-radius: 999px;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--brand-2), var(--brand));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sc-story-circle > span {
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  border: 2px solid #fff;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.sc-story-add {
+  background: var(--surface-alt);
+  border: 2px dashed #c9d6e6;
+  color: var(--brand);
+  font-size: 1.25rem;
+  font-weight: 700;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sc-story-name {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #5a5e80;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =================================================================
+   Post composer + post card
+   ================================================================= */
+
+.socimo-post-section {
+  display: block;
+}
+
+.socimo-post-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.socimo-post-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+
+.socimo-composer-textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  background: var(--surface-alt);
+  color: var(--ink);
+  resize: vertical;
+  min-height: 4.25rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.socimo-composer-textarea:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-tint);
+}
+
+.socimo-composer-textarea::placeholder {
+  color: #9a9db5;
+}
+
+.socimo-post-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.socimo-post-file-label {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: var(--surface-alt);
+  transition: all 0.15s ease;
+}
+
+.socimo-post-file-label:hover {
+  background: var(--brand-tint);
+  color: var(--brand-dark);
+}
+
+.socimo-post-file-preview {
+  position: relative;
+  margin-top: 0.75rem;
+}
+
+.socimo-post-image {
+  width: 100%;
+  max-height: 16rem;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+}
+
+.socimo-post-remove-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: rgba(19, 21, 62, 0.65);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.25rem 0.6rem;
+  cursor: pointer;
+}
+
+.socimo-post-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.45rem 1.1rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: var(--brand);
+  color: #fff;
+  transition: background-color 0.15s ease;
+}
+
+.socimo-post-btn:hover:not(:disabled) {
+  background: var(--brand-dark);
+}
+
+.socimo-post-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Post card internals */
+
+.sc-post {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.sc-post-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 1rem 1rem 0;
+}
+
+.sc-post-body {
+  padding: 0.7rem 1rem 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 0.87rem;
+  color: #2f3152;
+}
+
+.sc-post-media {
+  margin-top: 0.7rem;
+  max-height: 540px;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sc-post-counts {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.7rem 1rem 0;
+  font-size: 0.74rem;
+  color: var(--muted);
+}
+
+.sc-post-bar {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0.55rem 1rem 0;
+  padding: 0.45rem 0;
+}
+
+.sc-post-action {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #5a5e80;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.sc-post-action:hover {
+  background: var(--surface-alt);
+  color: var(--ink);
+}
+
+.sc-post-action--liked {
+  color: var(--brand);
+  background: var(--brand-tint);
+}
+
+.sc-comments {
+  padding: 0.25rem 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.sc-comment {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.sc-comment-bubble {
+  background: var(--surface-alt);
+  border-radius: 8px;
+  padding: 0.45rem 0.7rem;
+  min-width: 0;
+}
+
+.sc-comment-author {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.sc-comment-text {
+  font-size: 0.82rem;
+  color: #3a3d60;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.sc-comment-form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem 1rem;
+}
+
+/* =================================================================
+   Auth pages
+   ================================================================= */
+
+.sc-auth-brand {
+  display: none;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(420px 240px at 80% 12%, rgba(255, 255, 255, 0.22), transparent 70%),
+    radial-gradient(320px 200px at 10% 90%, rgba(255, 255, 255, 0.14), transparent 70%),
+    linear-gradient(150deg, var(--brand-2) 0%, var(--brand) 52%, #045f8a 100%);
+}
+
+.sc-auth-brand::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+  background-size: 26px 26px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  .sc-auth-brand {
+    display: block;
+    min-height: 100vh;
+  }
+}
+
+.sc-auth-tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  font-size: 0.7rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.sc-auth-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px -18px rgba(19, 21, 62, 0.35);
+  padding: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .sc-auth-card {
+    padding: 2rem;
+  }
+}
+
+/* =================================================================
+   Page chrome
+   ================================================================= */
+
+.sc-verify-bar {
+  background: #fff8e6;
+  border-bottom: 1px solid #f5e2b3;
+  color: #8a6100;
+}
+
+.sc-page-footer {
+  border-top: 1px solid var(--line);
+  background: #fff;
+}
+
+/* Profile page cover header */
+.sc-profile-hero {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.sc-profile-hero-cover {
+  height: 7rem;
+  background:
+    radial-gradient(220px 120px at 85% 15%, rgba(255, 255, 255, 0.3), transparent 70%),
+    linear-gradient(120deg, var(--brand-2) 0%, var(--brand) 55%, #046a99 100%);
+}
+
+@media (min-width: 640px) {
+  .sc-profile-hero-cover {
+    height: 9.5rem;
+  }
+}
+
+.sc-profile-hero-body {
+  padding: 0 1.15rem 1.15rem;
+  margin-top: -2.6rem;
+}
+
+.sc-profile-hero-avatar {
+  display: inline-block;
+  border-radius: 999px;
+  border: 4px solid #fff;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(19, 21, 62, 0.16);
+}
+
+.sc-tabs {
+  display: flex;
+  gap: 1.25rem;
+  border-bottom: 1px solid var(--line);
+  margin-top: 1rem;
+}
+
+.sc-tab {
+  padding: 0.55rem 0 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+}
+
+.sc-tab--active {
+  color: var(--brand);
+  border-bottom-color: var(--brand);
+}
+
+/* =================================================================
+   Utilities
+   ================================================================= */
+
+.text-brand {
+  color: var(--brand);
+}
+
+.bg-brand {
+  background-color: var(--brand);
+}
