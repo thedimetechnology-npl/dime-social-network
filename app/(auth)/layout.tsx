@@ -16,7 +16,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             </h2>
             <p className="mt-3 text-sm max-w-sm" style={{ color: "rgba(255,255,255,0.86)" }}>
               Build a profile that works for you, follow the people who inspire you, and find your next
-              opportunity — all in one place.
+              opportunity - all in one place.
             </p>
 
             <ul className="mt-7 flex flex-col gap-3 text-sm" style={{ color: "rgba(255,255,255,0.94)" }}>
