@@ -33,7 +33,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           </div>
 
           <p className="text-xs" style={{ color: "rgba(255,255,255,0.7)" }}>
-            © {new Date().getFullYear()} Dime Social Network. All rights reserved.
+            © 2025 Dime Social Network. All rights reserved.
           </p>
         </div>
       </aside>

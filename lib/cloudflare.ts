@@ -183,6 +183,10 @@ const mockFiles: R2Bucket = {
 const mockEnv: AppEnv = {
   DB: mockDb,
   FILES: mockFiles,
+  GOOGLE_CLIENT_ID: "demo-google-client-id",
+  GOOGLE_CLIENT_SECRET: "demo-google-client-secret",
+  MICROSOFT_CLIENT_ID: "demo-microsoft-client-id",
+  MICROSOFT_CLIENT_SECRET: "demo-microsoft-client-secret",
 };
 
 export function env(): AppEnv {
